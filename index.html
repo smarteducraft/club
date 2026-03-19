@@ -14,12 +14,36 @@
     body { font-family: 'Noto Sans KR', sans-serif; background-color: #fcfaff; color: #1e1b4b; }
 
     /* Custom Animations */
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); } 50% { box-shadow: 0 0 35px rgba(139, 92, 246, 0.5); } }
-    @keyframes slide-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes orbit { from { transform: rotate(0deg) translateX(70px) rotate(0deg); } to { transform: rotate(360deg) translateX(70px) rotate(-360deg); } }
-    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
+      50% { box-shadow: 0 0 35px rgba(139, 92, 246, 0.5); }
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes orbit-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     .anim-float { animation: float 4s ease-in-out infinite; }
     .anim-float-delayed { animation: float 4s ease-in-out infinite; animation-delay: 1s; }
@@ -43,6 +67,7 @@
       border: 1px solid rgba(255, 255, 255, 0.4);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .glass-card:hover {
       transform: translateY(-8px);
       background: rgba(255, 255, 255, 0.8);
@@ -50,11 +75,64 @@
       box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.2);
     }
 
-    .orbit-container { position: relative; width: 160px; height: 160px; }
-    .orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
-    .orbit-item { position: absolute; top: 50%; left: 50%; animation: orbit 8s linear infinite; }
-    .orbit-item:nth-child(2) { animation-duration: 10s; animation-delay: -2.5s; }
-    .orbit-item:nth-child(3) { animation-duration: 7s; animation-delay: -5s; }
+    /* Orbit */
+    .orbit-container {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .orbit-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .orbit-center-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.06);
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 0;
+      animation: orbit-spin 12s linear infinite;
+    }
+
+    .orbit-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+    }
+
+    .orbit-badge {
+      width: 52px;
+      height: 52px;
+      margin-left: -26px;
+      margin-top: -26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 9999px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      font-size: 1.25rem;
+    }
+
+    .orbit-item-1 { transform: rotate(0deg) translateX(72px); }
+    .orbit-item-2 { transform: rotate(90deg) translateX(72px); }
+    .orbit-item-3 { transform: rotate(180deg) translateX(72px); }
+    .orbit-item-4 { transform: rotate(270deg) translateX(72px); }
 
     .btn-gradient {
       background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
@@ -62,6 +140,7 @@
       transition: all 0.3s ease;
       animation: gradient-shift 4s ease infinite;
     }
+
     .btn-gradient:hover {
       transform: scale(1.05);
       box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.5);
@@ -72,6 +151,7 @@
       color: #8b5cf6;
       transition: all 0.3s ease;
     }
+
     .btn-outline:hover {
       background: #8b5cf6;
       color: white;
@@ -91,9 +171,27 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a78bfa; }
 
     .highlight-badge {
-        background: rgba(139, 92, 246, 0.1);
-        color: #6d28d9;
-        border: 1px solid rgba(139, 92, 246, 0.2);
+      background: rgba(139, 92, 246, 0.1);
+      color: #6d28d9;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    @media (max-width: 640px) {
+      .orbit-container {
+        width: 150px;
+        height: 150px;
+      }
+      .orbit-item-1 { transform: rotate(0deg) translateX(60px); }
+      .orbit-item-2 { transform: rotate(90deg) translateX(60px); }
+      .orbit-item-3 { transform: rotate(180deg) translateX(60px); }
+      .orbit-item-4 { transform: rotate(270deg) translateX(60px); }
+      .orbit-badge {
+        width: 46px;
+        height: 46px;
+        margin-left: -23px;
+        margin-top: -23px;
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
@@ -104,16 +202,30 @@
     <!-- Hero Section -->
     <header class="hero-bg min-h-[85vh] flex items-center justify-center px-6 py-20">
       <div class="max-w-4xl mx-auto text-center relative z-10">
+        
         <!-- Visual Orbit -->
-        <div class="w-20 h-20 opacity-0"></div>
+        <div class="orbit-container">
           <div class="orbit-center">
-            <div class="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm"></div>
-          <div class="orbit-item"><div class="p-3 bg-white rounded-full shadow-lg text-xl">💡</div></div>
-          <div class="orbit-item"><div class="p-3 bg-white rounded-full shadow-lg text-xl">🤖</div></div>
-          <div class="orbit-item"><div class="p-3 bg-white rounded-full shadow-lg text-xl">💻</div></div>
+            <div class="orbit-center-dot"></div>
+          </div>
+
+          <div class="orbit-ring">
+            <div class="orbit-item orbit-item-1">
+              <div class="orbit-badge">💡</div>
+            </div>
+            <div class="orbit-item orbit-item-2">
+              <div class="orbit-badge">🤖</div>
+            </div>
+            <div class="orbit-item orbit-item-3">
+              <div class="orbit-badge">💻</div>
+            </div>
+            <div class="orbit-item orbit-item-4">
+              <div class="orbit-badge">🚀</div>
+            </div>
+          </div>
         </div>
 
-        <div class="inline-block px-10 py-6 rounded-full highlight-badge text-xl font-bold tracking-[0.2em] uppercase mb-6 anim-fade-in">
+        <div class="inline-block px-8 py-4 rounded-full highlight-badge text-xl font-bold tracking-[0.2em] uppercase mb-6 anim-fade-in">
           2026 성암초 SW-AI교육 동아리
         </div>
 
@@ -172,7 +284,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- Item 1 -->
           <div class="glass-card p-8 rounded-3xl text-center">
             <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 anim-float">🔌</div>
             <h3 class="text-xl font-bold mb-3">피지컬 컴퓨팅</h3>
@@ -180,7 +291,7 @@
               센서와 모터를 코딩으로 제어하여 직접 움직이는 창의적 장치를 발명합니다.
             </p>
           </div>
-          <!-- Item 2 -->
+
           <div class="glass-card p-8 rounded-3xl text-center">
             <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 anim-float-delayed">🧠</div>
             <h3 class="text-xl font-bold mb-3">AI 프로그램</h3>
@@ -188,7 +299,7 @@
               이미지·음성 인식 인공지능 모델을 활용해 똑똑한 나만의 어플을 개발합니다.
             </p>
           </div>
-          <!-- Item 3 -->
+
           <div class="glass-card p-8 rounded-3xl text-center">
             <div class="w-16 h-16 bg-fuchsia-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 anim-float">🎨</div>
             <h3 class="text-xl font-bold mb-3">디지털 콘텐츠</h3>
@@ -196,7 +307,7 @@
               캔바와 영상 편집 도구로 웹페이지, 포스터, 유튜브 등 다양한 매체를 창작합니다.
             </p>
           </div>
-          <!-- Item 4 -->
+
           <div class="glass-card p-8 rounded-3xl text-center">
             <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 anim-float-delayed">📊</div>
             <h3 class="text-xl font-bold mb-3">데이터 분석</h3>
@@ -239,6 +350,7 @@
               </li>
             </ul>
           </div>
+
           <div class="glass-card p-8 rounded-[2rem] border-indigo-100 relative overflow-hidden">
             <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-500/10 rounded-full"></div>
             <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
@@ -288,10 +400,8 @@
   </div>
 
   <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Scroll reveal animation simple implementation
     const observerOptions = {
       threshold: 0.1
     };
@@ -310,7 +420,6 @@
       observer.observe(card);
     });
 
-    // SDK Init logic if needed
     if (window.elementSdk) {
       window.elementSdk.init({
         defaultConfig: {
@@ -324,6 +433,12 @@
           
           const locEl = document.getElementById('info-location');
           if (locEl) locEl.textContent = newConfig.location_text;
+
+          const deadlineEl = document.getElementById('hero-deadline');
+          if (deadlineEl) {
+            deadlineEl.innerHTML = '<i data-lucide="calendar" class="w-4 h-4"></i> ~' + newConfig.deadline_text;
+            lucide.createIcons();
+          }
         }
       });
     }
